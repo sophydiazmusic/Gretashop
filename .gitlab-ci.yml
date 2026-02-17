@@ -1,0 +1,16 @@
+# Configuración de Publicación Automática - Greta Shop 🚀
+
+# Imagen base para correr el proceso
+image: alpine:latest
+
+pages:
+  stage: deploy
+  script:
+    - mkdir .public
+    - cp -r * .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main # Solo se publica cuando hacés cambios en la rama principal

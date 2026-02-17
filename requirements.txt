@@ -1,0 +1,3 @@
+# Dependencias para el Bot Zapas Show
+pydantic
+python-dotenv

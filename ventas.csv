@@ -1,0 +1,7 @@
+Fecha,Producto,Talle,Zona,Metodo Pago,Total,Link Multimedia
+2026-02-13 21:49:02,Vans Knu Clasica,35,caballito,Transferencia,36000.0,
+1,2026-02-13 21:51:49,Vans Knu Clasica,35,caballito,Transferencia,36000.0,PAGADO,SI
+2,2026-02-13 21:57:23,Vans Knu Clasica,35,caballito,Efectivo,40000.0,PAGADO_EN_MANO,NO
+3,2026-02-13 22:53:35,NB Beige y Rosa,37,el triangulo,Transferencia,43200.0,PENDIENTE,NO
+4,2026-02-13 23:07:34,NB Negro y Blanco,39,morón,Efectivo,55000.0,PAGADO_EN_MANO,NO
+5,2026-02-13 23:27:03,Vans knu black,37,grand bourg,Efectivo,40000.0,PAGADO_EN_MANO,NO
