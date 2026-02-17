@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo | Greta Shop</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <a href="index.html"><img src="logo.jpeg" alt="Greta Shop Logo" class="logo"></a>
+            </div>
+            <h1>Catálogo Premium</h1>
+            <p class="subtitle">Lo último en Zapatillas Urbanas</p>
+        </header>
+
+        <main class="links">
+            <div id="product-grid" class="product-grid">
+                <div class="loader">Cargando catálogo premium...</div>
+            </div>
+
+            <a href="index.html" class="btn btn-outline">
+                <span class="icon">🏠</span> Volver al Inicio
+            </a>
+        </main>
+
+        <footer>
+            <p class="footer-note">Hecho con ❤️ para la comunidad amante de las zapas.</p>
+        </footer>
+    </div>
+
+    <script>
+        async function loadProducts() {
+            const grid = document.getElementById('product-grid');
+            try {
+                const response = await fetch('zapatillas_greta.csv');
+                const data = await response.text();
+                const lines = data.split('\n').filter(line => line.trim() !== '');
+
+                const products = {};
+
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',');
+                    if (values.length < 5) continue;
+
+                    const name = values[0];
+                    const size = values[1];
+                    const price = values[2];
+                    const multimedia = values[4];
+
+                    if (!products[name]) {
+                        products[name] = {
+                            name: name,
+                            price: price,
+                            sizes: [],
+                            link: multimedia
+                        };
+                    }
+                    products[name].sizes.push(size);
+                }
+
+                grid.innerHTML = '';
+
+                Object.values(products).forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+
+                    const formattedPrice = new Intl.NumberFormat('es-AR', {
+                        style: 'currency',
+                        currency: 'ARS',
+                        maximumFractionDigits: 0
+                    }).format(p.price);
+
+                    card.innerHTML = `
+                        <div class="product-info">
+                            <h3>${p.name}</h3>
+                            <p class="price">${formattedPrice}</p>
+                            <p class="sizes">Talles: ${p.sizes.join(', ')}</p>
+                        </div>
+                        <a href="${p.link}" target="_blank" class="btn-card">Ver Fotos</a>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Error cargando productos:', error);
+                grid.innerHTML = '<div class="error">No se pudo cargar el catálogo. Escribinos por WhatsApp.</div>';
+            }
+        }
+
+        window.onload = loadProducts;
+    </script>
+</body>
+
+</html>

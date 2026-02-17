@@ -23,10 +23,19 @@
         </header>
 
         <main class="links">
-            <div id="product-grid" class="product-grid">
-                <!-- Los productos se cargarán aquí dinámicamente -->
-                <div class="loader">Cargando catálogo premium...</div>
+            <button class="btn btn-secondary" id="btn-info" onclick="toggleInfo()">
+                <span class="icon">📍</span> Puntos de Entrega y Talles
+            </button>
+
+            <div id="info-panel" class="info-panel">
+                <p><strong>📍 Retiros GRATIS:</strong> • Grand Bourg • Moreno • San Miguel • Caballito .</p>
+                <p><strong>📏 Talles:</strong> Trabajamos del 35 al 44 (Stock limitado).</p>
+                <p>🚚 Envíos a todo el país por Correo Argentino.</p>
             </div>
+
+            <a href="catalogo.html" class="btn btn-primary" id="btn-fotos">
+                <span class="icon">📸</span> Fotos (Catálogo)
+            </a>
 
             <a href="https://wa.me/5491173739122?text=Hola!%20Tengo%20una%20consulta%20específica"
                 class="btn btn-outline" id="btn-humano">
@@ -57,67 +66,6 @@
                 panel.style.padding = "0";
             }
         }
-
-        async function loadProducts() {
-            const grid = document.getElementById('product-grid');
-            try {
-                const response = await fetch('zapatillas_greta.csv');
-                const data = await response.text();
-                const lines = data.split('\n').filter(line => line.trim() !== '');
-                const headers = lines[0].split(',');
-
-                const products = {};
-
-                for (let i = 1; i < lines.length; i++) {
-                    const values = lines[i].split(',');
-                    if (values.length < 5) continue;
-
-                    const name = values[0];
-                    const size = values[1];
-                    const price = values[2];
-                    const multimedia = values[4];
-
-                    if (!products[name]) {
-                        products[name] = {
-                            name: name,
-                            price: price,
-                            sizes: [],
-                            link: multimedia
-                        };
-                    }
-                    products[name].sizes.push(size);
-                }
-
-                grid.innerHTML = '';
-
-                Object.values(products).forEach(p => {
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-
-                    // Formatear precio
-                    const formattedPrice = new Intl.NumberFormat('es-AR', {
-                        style: 'currency',
-                        currency: 'ARS'
-                    }).format(p.price);
-
-                    card.innerHTML = `
-                        <div class="product-info">
-                            <h3>${p.name}</h3>
-                            <p class="price">${formattedPrice}</p>
-                            <p class="sizes">Talles: ${p.sizes.join(', ')}</p>
-                        </div>
-                        <a href="${p.link}" target="_blank" class="btn-card">Ver Fotos</a>
-                    `;
-                    grid.appendChild(card);
-                });
-
-            } catch (error) {
-                console.error('Error cargando productos:', error);
-                grid.innerHTML = '<div class="error">No se pudo cargar el catálogo. Escribinos por WhatsApp.</div>';
-            }
-        }
-
-        window.onload = loadProducts;
     </script>
 
 </body>

@@ -143,6 +143,30 @@ header h1 {
     justify-content: space-between;
 }
 
+.info-panel {
+    overflow: hidden;
+    max-height: 0;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    transition: all 0.4s ease;
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.info-panel.active {
+    margin: 15px 0;
+    padding: 15px;
+    border: 1px solid var(--glass-border);
+}
+
+.info-panel p {
+    margin-bottom: 8px;
+    color: #e0e0e0;
+}
+
 .product-card:hover {
     transform: translateY(-5px);
     border-color: var(--accent-color);
@@ -155,6 +179,7 @@ header h1 {
     margin-bottom: 5px;
     color: var(--primary-color);
 }
+
 
 .price {
     font-size: 1.1rem;
