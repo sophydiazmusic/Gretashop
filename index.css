@@ -15,7 +15,7 @@
 }
 
 body {
-    background-color: var(--bg-color);
+    background-color: rgb(105, 102, 117);
     color: var(--text-main);
     font-family: 'Outfit', sans-serif;
     display: flex;
@@ -23,7 +23,7 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background: radial-gradient(circle at top right, #1a1e26, #0f1115);
+    background: radial-gradient(circle at top right, #8a8896, rgb(105, 102, 117));
 }
 
 .container {
@@ -303,9 +303,9 @@ footer {
 }
 
 .footer-note {
-    font-size: 0.75rem;
-    color: #555;
-    font-weight: 400;
+    font-size: 0.85rem;
+    color: #ffffff;
+    font-weight: 700;
 }
 
 @keyframes fadeInDown {
