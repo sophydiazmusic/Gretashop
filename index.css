@@ -18,15 +18,18 @@
 }
 
 body {
-    background-color: var(--bg-color);
+    background-color: #0f172a;
+    /* Fallback para navegadores viejos */
+    background: radial-gradient(circle at top right, #1e293b, #0f172a) fixed;
+    background: -webkit-radial-gradient(top right, circle, #1e293b, #0f172a) fixed;
     color: var(--text-main);
     font-family: 'Outfit', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    margin: 0;
     padding: 20px;
-    background: radial-gradient(circle at top right, #1e293b, #0f172a);
 }
 
 .container {
