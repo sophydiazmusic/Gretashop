@@ -22,86 +22,8 @@
         </header>
 
         <main class="links">
-            <!-- SECCIÓN MUJER -->
-            <h2 style="margin: 20px 0 15px; font-size: 1.4rem; color: #ffffff;">👠 Mujer Oferta</h2>
-
-            <div class="combo-card">
-                <div class="combo-header">
-                    <span style="font-weight: 600;">Combo Urbano</span>
-                    <span class="combo-price">$60.000</span>
-                </div>
-                <div class="combo-items">
-                    <div class="combo-item">
-                        <span>Adidas rosa</span>
-                        <a href="https://drive.google.com/drive/folders/1scKCmRNOc-WoV0KZwJf18fXFPx40f0p7?usp=drive_link"
-                            target="_blank" class="btn-card">Fotos</a>
-                    </div>
-                    <div class="combo-item">
-                        <span>Nike Zoom mujer</span>
-                        <a href="https://drive.google.com/drive/folders/11SAYXxBhxG4S4Y-tNscv9SzEfa9D-bQ1?usp=drive_link"
-                            target="_blank" class="btn-card">Fotos</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="combo-card">
-                <div class="combo-header">
-                    <span style="font-weight: 600;">Combo Premium</span>
-                    <span class="combo-price">$80.000</span>
-                </div>
-                <div class="combo-items">
-                    <div class="combo-item">
-                        <span>NB Beige y Rosa</span>
-                        <a href="https://drive.google.com/drive/folders/121L0TKwUWv-vcVQyviJ5RyQPfFk2Wj_1?usp=drive_link"
-                            target="_blank" class="btn-card">Fotos</a>
-                    </div>
-                    <div class="combo-item">
-                        <span>Vans knu black</span>
-                        <a href="https://drive.google.com/drive/folders/10qFluD36cwMMF4wU3_j8FFsKwS8DK3st?usp=drive_link"
-                            target="_blank" class="btn-card">Fotos</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECCIÓN HOMBRE -->
-            <h2 style="margin: 30px 0 15px; font-size: 1.4rem; color: #ffffff;">👟 Hombre Oferta</h2>
-
-            <div class="combo-card">
-                <div class="combo-header">
-                    <span style="font-weight: 600;">Combo Street</span>
-                    <span class="combo-price">$60.000</span>
-                </div>
-                <div class="combo-items">
-                    <div class="combo-item">
-                        <span>Puma park style</span>
-                        <a href="https://drive.google.com/drive/folders/1PUuaOd5Zb4sJoBeQAnk4qOWK8u30_YMt?usp=drive_link"
-                            target="_blank" class="btn-card">Fotos</a>
-                    </div>
-                    <div class="combo-item">
-                        <span>Nike SB grises</span>
-                        <a href="https://drive.google.com/drive/folders/1KwqxcTIMLNvdoR3jOL6C0tYvxQKsTdSf?usp=drive_link"
-                            target="_blank" class="btn-card">Fotos</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="combo-card">
-                <div class="combo-header">
-                    <span style="font-weight: 600;">Combo Skater</span>
-                    <span class="combo-price">$80.000</span>
-                </div>
-                <div class="combo-items">
-                    <div class="combo-item">
-                        <span>Vans skater Verdes</span>
-                        <a href="https://drive.google.com/drive/folders/1SLRqlsdYzavA2ZnivXPLrwCfwOqrmH3C?usp=drive_link"
-                            target="_blank" class="btn-card">Fotos</a>
-                    </div>
-                    <div class="combo-item">
-                        <span>Nike SB Black</span>
-                        <a href="https://drive.google.com/drive/folders/1a1ZzSN0b54RG-cUNtiTVx6WnkP1znqPG?usp=drive_link"
-                            target="_blank" class="btn-card">Fotos</a>
-                    </div>
-                </div>
+            <div id="offers-container">
+                <div class="loader">Cargando las mejores ofertas...</div>
             </div>
 
             <a href="https://wa.me/5491173739122?text=Hola! Quiero aprovechar la Oferta 2x1" class="btn btn-red"
@@ -118,6 +40,84 @@
             <p class="footer-note">Ofertas válidas hasta agotar stock. ¡No te cuelgues!</p>
         </footer>
     </div>
+
+    <script>
+        async function loadOffers() {
+            const container = document.getElementById('offers-container');
+            try {
+                const response = await fetch('zapatillas_greta.csv');
+                const data = await response.text();
+                const lines = data.split('\n').filter(line => line.trim() !== '');
+
+                const categories = {
+                    'Mujer': [
+                        { name: 'Adidas rosa', combo: 'Combo Urbano', price: 60000 },
+                        { name: 'Nike Zoom mujer', combo: 'Combo Urbano', price: 60000 },
+                        { name: 'NB Beige y Rosa', combo: 'Combo Premium', price: 80000 },
+                        { name: 'Vans knu black', combo: 'Combo Premium', price: 80000 }
+                    ],
+                    'Hombre': [
+                        { name: 'Puma park style', combo: 'Combo Street', price: 60000 },
+                        { name: 'Nike SB grises', combo: 'Combo Street', price: 60000 },
+                        { name: 'Vans skater Verdes', combo: 'Combo Skater', price: 80000 },
+                        { name: 'Nike SB Black', combo: 'Combo Skater', price: 80000 }
+                    ]
+                };
+
+                const inventory = {};
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',');
+                    if (values.length < 5) continue;
+                    const name = values[0];
+                    if (!inventory[name]) inventory[name] = values[4]; // Link multimedia
+                }
+
+                container.innerHTML = '';
+
+                for (const [gender, items] of Object.entries(categories)) {
+                    const h2 = document.createElement('h2');
+                    h2.style.cssText = gender === 'Mujer' ? "margin: 20px 0 15px; font-size: 1.4rem; color: #ffffff;" : "margin: 30px 0 15px; font-size: 1.4rem; color: #ffffff;";
+                    h2.innerHTML = `${gender === 'Mujer' ? '👠' : '👟'} ${gender} Oferta`;
+                    container.appendChild(h2);
+
+                    const combos = {};
+                    items.forEach(item => {
+                        if (!combos[item.combo]) combos[item.combo] = { price: item.price, items: [] };
+                        combos[item.combo].items.push({ name: item.name, link: inventory[item.name] || '#' });
+                    });
+
+                    for (const [comboName, comboData] of Object.entries(combos)) {
+                        const card = document.createElement('div');
+                        card.className = 'combo-card';
+
+                        const formattedPrice = new Intl.NumberFormat('es-AR', {
+                            style: 'currency', currency: 'ARS', maximumFractionDigits: 0
+                        }).format(comboData.price);
+
+                        card.innerHTML = `
+                            <div class="combo-header">
+                                <span style="font-weight: 600;">${comboName}</span>
+                                <span class="combo-price">${formattedPrice}</span>
+                            </div>
+                            <div class="combo-items">
+                                ${comboData.items.map(item => `
+                                    <div class="combo-item">
+                                        <span>${item.name}</span>
+                                        <a href="${item.link}" target="_blank" class="btn-card">Fotos</a>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando ofertas:', error);
+                container.innerHTML = '<div class="error">No se pudieron cargar las ofertas. Escribinos por WhatsApp.</div>';
+            }
+        }
+        window.onload = loadOffers;
+    </script>
 </body>
 
 </html>
